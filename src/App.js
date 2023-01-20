@@ -24,49 +24,52 @@ class App extends React.Component {
   cityData = async (e) => {
     e.preventDefault();
     
-
     let url = `https://us1.locationiq.com/v1/search?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&q=${this.state.city}&format=json&limit=1`;
     try {
-
+      
       let cityDataFromAxios = await axios.get(url)
-      console.log(cityDataFromAxios);
+      let lat = cityDataFromAxios.data[0].lat;
+      let lon = cityDataFromAxios.data[0].lon;
+      console.log(cityDataFromAxios.data[0]);
+      console.log(lat, lon);
       this.setState({
         cityData: cityDataFromAxios.data[0],
+      })
+       
+        // console.log(city.data);
+        } catch (error) {
+        console.log (error.errorMessage);
 
-        cityMap: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center=${cityDataFromAxios[0].lat},${cityDataFromAxios[0].lon}&zoom=10`
-      });
-      // console.log(city.data);
-    } catch (error) {
+        }
 
 
-    }
-
-
-  }
+      }
   render() {
-    return (
+        return(
       <>
-        <div>
-          <h1>CITY Explore</h1>
+      <div>
+        <h1>CITY Explore</h1>
 
-          <form onSubmit={this.cityData}>
-            <label htmlFor="">Pick a City!</label>
-            <input type="text" id="city" name="city" onInput={this.handleInput} />
-            <button type="submit">Explore!</button>
-          </form>
-          {/* <Card>
+        <form onSubmit={this.cityData}>
+          <label htmlFor="">Pick a City!</label>
+          <input type="text" id="city" name="city" onInput={this.handleInput} />
+          <button type="submit">Explore!</button>
+        </form>
+        {/* <Card>
 
 
 
 
 
           </Card> */}
-          {/* <p>{this.state.locationData[0].display_name}</p> */}
-        </div>
+        <p>{this.state.cityData.display_name}</p>
+        <p>{this.state.cityData.lat}</p>
+        <p>{this.state.cityData.lon}</p>
+      </div>
 
 
       </>
     )
-  }
+    }
 }
 export default App;
