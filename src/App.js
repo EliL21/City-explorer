@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import axios from 'axios';
-import Card from 'react-bootstrap/Card';
+// import Card from 'react-bootstrap/Card';
 
 class App extends React.Component {
   constructor(props) {
