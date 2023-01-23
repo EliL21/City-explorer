@@ -2,6 +2,7 @@ import './App.css';
 import Weather from './Weather'
 import React from 'react';
 import axios from 'axios';
+import Movies from './movies';
 // import Card from 'react-bootstrap/Card';
 
 class App extends React.Component {
@@ -72,7 +73,26 @@ class App extends React.Component {
       })
     }
   }
+  handleGetMovie = async () => {
+    try{
 
+      let url = `${process.env.REACT_APP_SERVER}/movie?searchQuery=${this.state.city}`
+      let movieDatafromAxios = await axios.get(url);
+      console.log('moviedata',movieDatafromAxios)
+
+      this.setState({
+        error:false,
+        movieData: movieDatafromAxios.data,
+      })
+
+    } catch (error) {
+      console.log(error);
+      this.setState({
+        error:true,
+        errorMessage: error.message
+      })
+
+    };
 
   render() {
     return (
