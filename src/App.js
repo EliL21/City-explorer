@@ -2,7 +2,7 @@ import './App.css';
 import Weather from './Weather'
 import React from 'react';
 import axios from 'axios';
-import Movies from './movies';
+import Movies from './Movies';
 // import Card from 'react-bootstrap/Card';
 
 class App extends React.Component {
@@ -13,7 +13,7 @@ class App extends React.Component {
       cityData: [],
       error: false,
       errorMessage: '',
-      weatherData: []
+      weatherData: null
     }
   }
 
@@ -61,9 +61,9 @@ class App extends React.Component {
 
       console.log(weatherDataFromAxios.data);
       // TODO: Save that weather data to state
-        this.setState({
-          weatherData: weatherDataFromAxios.data
-        });
+      this.setState({
+        weatherData: weatherDataFromAxios.data.data
+      });
 
     } catch (error) {
       console.log(error.message);
@@ -74,25 +74,26 @@ class App extends React.Component {
     }
   }
   handleGetMovie = async () => {
-    try{
+    try {
 
       let url = `${process.env.REACT_APP_SERVER}/movie?searchQuery=${this.state.city}`
       let movieDatafromAxios = await axios.get(url);
-      console.log('moviedata',movieDatafromAxios)
+      console.log('moviedata', movieDatafromAxios)
 
       this.setState({
-        error:false,
+        error: false,
         movieData: movieDatafromAxios.data,
       })
 
     } catch (error) {
       console.log(error);
       this.setState({
-        error:true,
+        error: true,
         errorMessage: error.message
       })
+    }
+  };
 
-    };
 
   render() {
     return (
@@ -115,8 +116,12 @@ class App extends React.Component {
               <p>{this.state.cityData.display_name}</p>
               <p> Latitude: {this.state.cityData.lat}</p>
               <p>Longitude: {this.state.cityData.lon}</p>
-              
-              <Weather weatherData={this.state.weatherData}/>
+              {
+                this.state.weatherData?
+
+                <Weather weatherData={this.state.weatherData} />
+                : null
+              }
             </>
         }
       </>

@@ -12,8 +12,10 @@ class Weather extends React.Component {
 
           {this.props.weatherData.map((day, indx) => {
             return (
-        <p>{this.props.weatherday.date}</p>
-        <p>{this.props.weatherday.description}</p>
+              <>
+        <p>{day.datetime}</p>
+        <p>{day.weather.description}</p>
+        </>
             )
           })}
 
