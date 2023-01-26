@@ -35,6 +35,7 @@ class App extends React.Component {
       let lon = cityDataFromAxios.data[0].lon;
 
       this.handleGetWeather(lat, lon);
+      this.handleGetMovie();
 
       this.setState({
         cityData: cityDataFromAxios.data[0],
@@ -54,15 +55,16 @@ class App extends React.Component {
   handleGetWeather = async (lat, lon) => {
     try {
       // TODO: build URL
-      let url = `${process.env.REACT_APP_SERVER}/weather?lat=${lat}&lon=${lon}&searchQuery=${this.state.city}`
+      let url = `${process.env.REACT_APP_SERVER}/Weather?lat=${lat}&lon=${lon}&searchQuery=${this.state.city}`
 
       // TODO: Use axios to hit my server
+      console.log('here', url);
       let weatherDataFromAxios = await axios.get(url);
 
-      console.log(weatherDataFromAxios.data);
+      console.log(weatherDataFromAxios.data[0]);
       // TODO: Save that weather data to state
       this.setState({
-        weatherData: weatherDataFromAxios.data.data
+        weatherData: weatherDataFromAxios.data
       });
 
     } catch (error) {
@@ -73,18 +75,19 @@ class App extends React.Component {
       })
     }
   }
+
   handleGetMovie = async () => {
     try {
-
-      let url = `${process.env.REACT_APP_SERVER}/movie?searchQuery=${this.state.city}`
+      console.log('here');
+      let url = `${process.env.REACT_APP_SERVER}/Movie?searchQuery=${this.state.city}`;
       let movieDatafromAxios = await axios.get(url);
-      console.log('moviedata', movieDatafromAxios)
+      console.log('Moviedata', movieDatafromAxios);
 
       this.setState({
         error: false,
         movieData: movieDatafromAxios.data,
       })
-
+      
     } catch (error) {
       console.log(error);
       this.setState({
@@ -118,10 +121,12 @@ class App extends React.Component {
               <p>Longitude: {this.state.cityData.lon}</p>
               {
                 this.state.weatherData?
-
                 <Weather weatherData={this.state.weatherData} />
                 : null
               }
+            {this.state.movieData?
+               <Movies movieData={this.state.movieData} />: null} 
+          
             </>
         }
       </>

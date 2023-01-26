@@ -9,11 +9,12 @@ class Movies extends React.Component {
 
         {this.props.movieData.map((movie, indx) => {
           return(
-            <>
-            {movie.title}
-            {movie.overview}
+            <div key={indx}>
+
+           <p>{movie.title}</p> 
+           <p>{movie.overview}</p> 
             
-            </>
+            </div>
           )
         })}
       </>
